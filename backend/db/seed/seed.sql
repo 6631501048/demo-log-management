@@ -1,30 +1,14 @@
 -- seed.sql
--- Phase 1: minimal seed so backend has something to auth/query against
--- during Phase 2-3 development. Passwords are placeholders — real hashing
--- happens in backend/scripts/create_user.js (Phase 3), this is just to
--- unblock early testing.
+-- Tenants + an example alert rule. User accounts are NOT seeded here —
+-- create them with real bcrypt hashes via backend/scripts/create_user.js
+-- after running this file, e.g.:
+--   node scripts/create_user.js --email admin@demoA.local --password secret123 --role admin --tenant demoA
+--   node scripts/create_user.js --email viewer@demoA.local --password secret123 --role viewer --tenant demoA
 
 INSERT INTO tenants (slug, name) VALUES
   ('demoA', 'Demo Tenant A'),
   ('demoB', 'Demo Tenant B')
 ON CONFLICT (slug) DO NOTHING;
-
--- NOTE: password_hash below is a placeholder bcrypt hash for the string
--- "password123" — replace via backend/scripts/create_user.js once written.
-INSERT INTO users (tenant_id, email, password_hash, role)
-SELECT id, 'admin@demoA.local', '$2b$10$PLACEHOLDER_REPLACE_IN_PHASE3', 'admin'
-FROM tenants WHERE slug = 'demoA'
-ON CONFLICT (email) DO NOTHING;
-
-INSERT INTO users (tenant_id, email, password_hash, role)
-SELECT id, 'viewer@demoA.local', '$2b$10$PLACEHOLDER_REPLACE_IN_PHASE3', 'viewer'
-FROM tenants WHERE slug = 'demoA'
-ON CONFLICT (email) DO NOTHING;
-
-INSERT INTO users (tenant_id, email, password_hash, role)
-SELECT id, 'admin@demoB.local', '$2b$10$PLACEHOLDER_REPLACE_IN_PHASE3', 'admin'
-FROM tenants WHERE slug = 'demoB'
-ON CONFLICT (email) DO NOTHING;
 
 -- Example alert rule matching the assignment's suggested scenario:
 -- "repeated failed logins from same IP within 5 minutes"
