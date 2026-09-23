@@ -1,0 +1,2 @@
+<134>Aug 20 12:44:56 fw01 vendor=demo product=ngfw action=deny src=10.0.1.10 dst=8.8.8.8 spt=5353 dpt=53 proto=udp msg=DNS blocked policy=Block-DNS
+<134>Aug 20 12:45:10 fw01 vendor=demo product=ngfw action=allow src=10.0.1.20 dst=1.1.1.1 spt=443 dpt=443 proto=tcp msg=HTTPS allowed policy=Default-Allow
