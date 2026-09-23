@@ -5,6 +5,18 @@ const { insertLog } = require('../db');
 
 const router = express.Router();
 
+// Optional shared-secret check for machine-to-machine ingest (devices don't
+// log in as a user). If INGEST_API_KEY is unset, ingest stays open — useful
+// for local dev / the grading demo. Set it for the SaaS deployment.
+router.use((req, res, next) => {
+  const required = process.env.INGEST_API_KEY;
+  if (!required) return next();
+  if (req.headers['x-api-key'] !== required) {
+    return res.status(401).json({ ok: false, error: 'missing or invalid x-api-key' });
+  }
+  next();
+});
+
 // POST /ingest — accepts one JSON log object (api|crowdstrike|aws|m365|ad).
 // See samples/logs/*.json for the exact shape expected of each source.
 router.post('/', async (req, res) => {

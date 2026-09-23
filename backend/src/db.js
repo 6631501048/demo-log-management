@@ -42,4 +42,19 @@ async function insertLog(n) {
   return rows[0].id;
 }
 
-module.exports = { pool, insertLog };
+/**
+ * Fetch a user by email, joined with their tenant slug (needed for JWT claim
+ * and for scoping log queries). Returns undefined if not found.
+ */
+async function getUserByEmail(email) {
+  const text = `
+    SELECT u.id, u.email, u.password_hash, u.role, u.tenant_id, t.slug AS tenant_slug
+    FROM users u
+    JOIN tenants t ON t.id = u.tenant_id
+    WHERE u.email = $1
+  `;
+  const { rows } = await pool.query(text, [email]);
+  return rows[0];
+}
+
+module.exports = { pool, insertLog, getUserByEmail };
