@@ -4,8 +4,7 @@
 
     <div class="card" v-if="notReady">
       <p style="color:var(--text-dim);margin:0">
-        Alert backend endpoint (<code>GET /alerts</code>) ยังไม่ถูกสร้าง —
-        จะต่อใน Phase 5 (Alerting). หน้านี้พร้อมใช้งานแล้ว รอแค่ API
+        เชื่อมต่อ backend ไม่ได้ตอนนี้ (ต้องมี API server + DB รันอยู่ — ดู Phase 6)
       </p>
     </div>
 

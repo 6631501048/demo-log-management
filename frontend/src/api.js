@@ -42,4 +42,11 @@ export const api = {
     );
     return apiFetch(`/logs/summary?${qs.toString()}`);
   },
+
+  getAlerts: (params = {}) => {
+    const qs = new URLSearchParams(
+      Object.fromEntries(Object.entries(params).filter(([, v]) => v !== '' && v != null))
+    );
+    return apiFetch(`/alerts?${qs.toString()}`);
+  },
 };

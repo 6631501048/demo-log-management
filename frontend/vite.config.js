@@ -12,6 +12,7 @@ export default defineConfig({
     proxy: {
       '/auth': 'http://localhost:3000',
       '/logs': 'http://localhost:3000',
+      '/alerts': 'http://localhost:3000',
       '/ingest': 'http://localhost:3000',
     },
   },
