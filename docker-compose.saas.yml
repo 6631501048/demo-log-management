@@ -1,0 +1,19 @@
+# docker-compose.saas.yml
+# Overlay for SaaS mode. Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.saas.yml up -d --build
+#
+# Swaps the frontend's nginx config for the TLS version and mounts a cert
+# directory. Generate a self-signed cert first — see docs/setup_saas.md.
+
+services:
+  web:
+    volumes:
+      - ./frontend/nginx.tls.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./deploy/certs:/etc/nginx/certs:ro
+    ports:
+      - "80:80"
+      - "443:443"
+
+  # In SaaS mode syslog listens on the VM's public interface too — same
+  # container/config as Appliance mode, just documented here for clarity.
+  # (No override needed; included so this file is self-descriptive.)

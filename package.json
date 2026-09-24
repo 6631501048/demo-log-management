@@ -1,0 +1,7 @@
+{
+  "name": "log-management-demo",
+  "private": true,
+  "scripts": {
+    "test": "NODE_PATH=./backend/node_modules node --test tests/*.test.js"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "Log Management Demo API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": { "method": "GET", "url": "{{base_url}}/healthz" }
+    },
+    {
+      "name": "Auth - Login (admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = pm.response.json();",
+              "if (body.token) { pm.collectionVariables.set('token', body.token); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@demoA.local\",\n  \"password\": \"secret123\"\n}"
+        },
+        "url": "{{base_url}}/auth/login"
+      }
+    },
+    {
+      "name": "Ingest - API JSON (login failed)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant\": \"demoA\",\n  \"source\": \"api\",\n  \"event_type\": \"app_login_failed\",\n  \"user\": \"alice\",\n  \"ip\": \"203.0.113.7\",\n  \"reason\": \"wrong_password\",\n  \"@timestamp\": \"2025-08-20T07:20:00Z\"\n}"
+        },
+        "url": "{{base_url}}/ingest"
+      }
+    },
+    {
+      "name": "Ingest - CrowdStrike",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant\": \"demoA\",\n  \"source\": \"crowdstrike\",\n  \"event_type\": \"malware_detected\",\n  \"host\": \"WIN10-01\",\n  \"process\": \"powershell.exe\",\n  \"severity\": 8,\n  \"action\": \"quarantine\",\n  \"@timestamp\": \"2025-08-20T08:00:00Z\"\n}"
+        },
+        "url": "{{base_url}}/ingest"
+      }
+    },
+    {
+      "name": "Search - GET /logs",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "{{base_url}}/logs?limit=20",
+          "host": ["{{base_url}}"],
+          "path": ["logs"],
+          "query": [{ "key": "limit", "value": "20" }]
+        }
+      }
+    },
+    {
+      "name": "Dashboard - GET /logs/summary",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/logs/summary"
+      }
+    },
+    {
+      "name": "Alerts - GET /alerts",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/alerts"
+      }
+    }
+  ]
+}
