@@ -21,9 +21,9 @@ until docker compose exec -T postgres pg_isready -U "${POSTGRES_USER:-logmgmt_us
 done
 
 echo "Creating demo users (admin/viewer)..."
-docker compose exec -T api node scripts/create_user.js --email admin@demoA.local --password secret123 --role admin --tenant demoA
-docker compose exec -T api node scripts/create_user.js --email viewer@demoA.local --password secret123 --role viewer --tenant demoA
-docker compose exec -T api node scripts/create_user.js --email admin@demoB.local --password secret123 --role admin --tenant demoB
+docker compose exec -T api node backend/scripts/create_user.js --email admin@demoA.local --password secret123 --role admin --tenant demoA
+docker compose exec -T api node backend/scripts/create_user.js --email viewer@demoA.local --password secret123 --role viewer --tenant demoA
+docker compose exec -T api node backend/scripts/create_user.js --email admin@demoB.local --password secret123 --role admin --tenant demoB
 
 cat <<EOF
 

@@ -16,9 +16,9 @@ logs:
 # Run this AFTER `make up` (needs the api container's deps, so it runs
 # inside the container to avoid requiring a local Node install).
 seed-users:
-	docker compose exec api node scripts/create_user.js --email admin@demoA.local --password secret123 --role admin --tenant demoA
-	docker compose exec api node scripts/create_user.js --email viewer@demoA.local --password secret123 --role viewer --tenant demoA
-	docker compose exec api node scripts/create_user.js --email admin@demoB.local --password secret123 --role admin --tenant demoB
+	docker compose exec api node backend/scripts/create_user.js --email admin@demoA.local --password secret123 --role admin --tenant demoA
+	docker compose exec api node backend/scripts/create_user.js --email viewer@demoA.local --password secret123 --role viewer --tenant demoA
+	docker compose exec api node backend/scripts/create_user.js --email admin@demoB.local --password secret123 --role admin --tenant demoB
 
 # Sends sample syslog + posts sample JSON logs — see samples/README.md
 test-ingest:
