@@ -24,8 +24,20 @@ RBAC/multi-tenant และ deploy ได้ทั้งแบบ Appliance (Doc
 /tests       test cases
 ```
 
-## Quick start (จะเติมหลังจาก Phase 6)
+## Quick start
 ```bash
-cp .env.example .env
-docker-compose up
+git clone <your-repo-url>
+cd log-management
+./run.sh
 ```
+เปิด http://localhost แล้ว login ด้วย `admin@demoA.local` / `secret123`
+
+ดูขั้นตอนละเอียด: [`docs/setup_appliance.md`](docs/setup_appliance.md) (โหมดเดียว/VM เดียว)
+หรือ [`docs/setup_saas.md`](docs/setup_saas.md) (cloud VM + HTTPS)
+
+## เอกสารอื่นๆ
+- [`docs/architecture.md`](docs/architecture.md) — สถาปัตยกรรม, data flow, tenant model
+- [`docs/ingestion.md`](docs/ingestion.md) — ingestion layer (HTTP/syslog/batch), normalizer mapping
+- [`docs/api.md`](docs/api.md) — auth + search API reference
+- [`docs/alerting.md`](docs/alerting.md) — alert rule, evaluator, notifier
+

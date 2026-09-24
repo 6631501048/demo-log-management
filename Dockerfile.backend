@@ -1,0 +1,19 @@
+# Dockerfile.backend
+# Build context: repo root (needed because ingest/*.js does
+# require('../backend/src/...') — backend/ and ingest/ must sit as siblings
+# inside the image, matching the repo layout). Used for THREE services in
+# docker-compose.yml: api, syslog listener, and the one-off batch importer —
+# each just overrides CMD.
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY backend/package.json backend/package-lock.json* ./backend/
+RUN cd backend && npm install --omit=dev
+
+COPY backend ./backend
+COPY ingest ./ingest
+COPY samples ./samples
+
+EXPOSE 3000
+CMD ["node", "backend/src/server.js"]
