@@ -2,6 +2,9 @@
   "name": "log-management-demo",
   "private": true,
   "scripts": {
-    "test": "NODE_PATH=./backend/node_modules node --test tests/*.test.js"
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "express": "^4.19.2"
   }
 }

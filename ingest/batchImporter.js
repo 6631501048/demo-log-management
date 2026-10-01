@@ -7,7 +7,11 @@
 // Run: node ingest/batchImporter.js [path/to/dir]
 // Default dir: ../samples/logs relative to this file.
 
-require('dotenv').config({ path: require('path').join(__dirname, '..', 'backend', '.env') });
+// NOTE on env loading: no dotenv call here on purpose — see the comment in
+// ingest/syslogListener.js for why a bare require('dotenv') in this file
+// would fail to resolve. require('../backend/src/db') below already loads
+// dotenv as a side effect (from within backend/, where it resolves fine).
+
 const fs = require('fs');
 const path = require('path');
 const { normalizeJson } = require('../backend/src/normalizers');
