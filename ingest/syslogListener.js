@@ -12,7 +12,15 @@
 // (real deployments would map by source IP / collector config instead —
 // documented as a known simplification in docs/architecture.md).
 
-require('dotenv').config({ path: require('path').join(__dirname, '..', 'backend', '.env') });
+// NOTE on env loading: no dotenv call here on purpose. A bare require('dotenv')
+// in THIS file would fail to resolve — ingest/ is a sibling of backend/, not a
+// descendant, so Node's module resolution never finds backend/node_modules
+// from here (this crashed the syslog container: "Cannot find module 'dotenv'").
+// require('../backend/src/db') below already triggers dotenv.config() as a
+// side effect of loading db.js (which DOES resolve, since db.js itself lives
+// under backend/), and that populates process.env for this whole process —
+// so nothing further is needed here.
+
 const dgram = require('dgram');
 const net = require('net');
 const { parseSyslogLine } = require('../backend/src/normalizers/syslogParser');
