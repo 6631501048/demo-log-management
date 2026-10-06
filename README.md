@@ -5,10 +5,6 @@ M365, AD) พร้อม normalize เข้า schema กลาง, ค้น�
 RBAC/multi-tenant และ deploy ได้ทั้งแบบ Appliance (Docker Compose) และ SaaS
 (cloud VM + HTTPS)
 
-## สถานะ
-✅ ครบทุก feature ตามโจทย์ (Phase 0-7) — เหลือแค่ deploy จริงขึ้น cloud VM +
-อัดวิดีโอ demo (ดู [`docs/acceptance_checklist.md`](docs/acceptance_checklist.md))
-
 ## Tech Stack
 - Backend/Ingest: Node.js + Express
 - Storage: PostgreSQL (JSONB + GIN index)
